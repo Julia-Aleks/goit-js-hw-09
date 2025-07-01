@@ -28,7 +28,9 @@ function textareaInput(event) {
 form.addEventListener('submit', handleSubmit);
 function handleSubmit(event) {
   event.preventDefault();
-  if (!formData.email || !formData.message) {
+  const emailValue = email.value.trim();
+  const messageValue = textarea.value.trim();
+  if (!emailValue || !messageValue) {
     alert('Fill please all fields');
     return;
   }
