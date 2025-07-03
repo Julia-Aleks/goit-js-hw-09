@@ -9,9 +9,6 @@ const email = form.querySelector('input[name="email"]');
 const emailError = document.querySelector('#emailError');
 const messageError = document.querySelector('#messageError');
 
-textarea.addEventListener('input', textareaInput);
-email.addEventListener('input', textareaInput);
-
 const savedData = JSON.parse(localStorage.getItem(STORAGE_KEY));
 if (savedData && typeof savedData === 'object') {
   formData.email = savedData.email || '';
@@ -22,18 +19,17 @@ if (savedData && typeof savedData === 'object') {
 
 function textareaInput(event) {
   const { name, value } = event.target;
+  if (!['email', 'message'].includes(name)) return;
+
+  if (name === 'email') emailError.textContent = '';
+  if (name === 'message') messageError.textContent = '';
   formData[name] = value.trim();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-
-  if (name === 'email' && emailError.textContent) {
-    emailError.textContent = '';
-  }
-  if (name === 'message' && messageError.textContent) {
-    messageError.textContent = '';
-  }
 }
 
+form.addEventListener('input', textareaInput);
 form.addEventListener('submit', handleSubmit);
+
 function handleSubmit(event) {
   event.preventDefault();
 
